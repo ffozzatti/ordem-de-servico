@@ -1,18 +1,18 @@
 {
   "serviceOrder": [
     {
-      "service": "Amortecedor Dianteiro",
-      "price": 50,
+      "service": "Teste",
+      "price": 80,
       "id": 1
     },
     {
-      "service": "Pastilha de Freio",
-      "price": 30,
+      "service": "te",
+      "price": 60,
       "id": 2
     },
     {
-      "service": "Mão de Obra",
-      "price": 150,
+      "service": "dts",
+      "price": 4560,
       "id": 3
     }
   ]

@@ -1,19 +1,20 @@
 import './App.css';
 
-import { useState } from "react";
-
 import { useFetch } from "./hooks/useFetch"
 import GeneratePdf from './components/GeneratePdf';
+import Navbar from './components/Navbar';
+import AddProduct from './components/AddProduct';
+import { useState } from 'react';
+import ProductList from './components/ProductList'
+
+
 
 
 const url = "http://localhost:3000/serviceOrder"
 
 function App() {
 
-  const [serviceOrder, setServiceOrder] = useState([])
- 
-
-  const {data: items, httpConfig, loading, error} = useFetch(url)
+  const {data: items, httpConfig, loading, error} = useFetch(url) 
 
   const [service, setService] = useState("")
   const [price, setPrice] = useState("")
@@ -30,60 +31,53 @@ function App() {
 
     setService("")
     setPrice("")
-  }  
-
+  }
+  
   const handleRemove = (id) => {
     httpConfig(id, "DELETE")
-  }
+  } 
 
   
-  const sumTotalValue = items && items.map(sumTotalValue => sumTotalValue.price).reduce(( value, next) => value + next, 0)  
-
-
+  const sumTotalValue = items && items
+    .map(value => value.price)
+    .reduce(( prev, next) => prev + next, 0)  
 
   return (
     <div className="App">
+          <header>
+           <Navbar />
+          </header>
+          <main className='container'>
+            <AddProduct 
+              handleSubmit={handleSubmit} 
+              service={service} 
+              setService={setService} 
+              price={price} 
+              setPrice={setPrice}
+              loading={loading}
+            />          
+            {loading && <p>Carregando dados...</p>}
+            {error && <p>{error}</p>}
+            {!error && (
+              <ProductList 
+                items={items} 
+                handleRemove={handleRemove}
+              />
+            )}
 
-      <h1>Ordem de Serviço</h1>      
-          <div className="add-product">
-            <form onSubmit={handleSubmit}>
-              <label>
-                Serviço:
-                <input type="text" value={service} name="service" onChange={(e) => setService(e.target.value)} />
-              </label>
-              <label>
-                Preço:
-                <input type="number" value={price} name="price" onChange={(e) => setPrice(e.target.valueAsNumber)} />
-              </label>
-              {/* 7 - state de loading post */}
-              {loading && <input type="submit" disable value="Aguarde"/>}
-              {!loading && <input type="submit" value="Criar"/>}
-
-            </form>
-          </div>
-
-          {loading && <p>Carregando dados...</p>}
-          {error && <p>{error}</p>}
-          {!error && (
-            <ul>
-              {items && items.map((serviceOrder) => (
-                <li key={serviceOrder.id}>
-                  {serviceOrder.service} - R$: {serviceOrder.price}
-                  <button onClick={() => handleRemove(serviceOrder.id)} >Excluir</button>
-                </li>                        
-              ))}                  
-            </ul>
-          )}
-
-          <div className="total">
-            <p>O valor total é: R$ {sumTotalValue}</p>
-          </div>
+            <div className="total">
+              <p>O valor total é: {<span> R$ {sumTotalValue}</span> }</p>
+            </div>
+            
+            <GeneratePdf />
+  
+           
+          </main>
           
-          <GeneratePdf />
           
 
     </div>
-  );
+  )
 }
 
 export default App;

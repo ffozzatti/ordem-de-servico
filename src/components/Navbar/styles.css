@@ -1,0 +1,31 @@
+nav {
+    padding: 8px 24px;
+    background-color: #14213d;    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fca311;
+}
+
+h1 {    
+    font-size: 32px;
+}
+
+.login {   
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login p {    
+    font-size: 16px;
+}
+
+.login span {
+    font-size: 24px;
+    margin-left: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

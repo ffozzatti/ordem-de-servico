@@ -1,24 +1,27 @@
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
-
-import { useFetch } from "../hooks/useFetch"
+import { MdPictureAsPdf } from "react-icons/md";
+import { useFetch } from "../../hooks/useFetch";
+import './styles.css'
 
 
 const url = "http://localhost:3000/serviceOrder"
 
 
 const GeneratePdf = () => {
-    const {data: items, httpConfig, loading, error} = useFetch(url)
+    const {data: items} = useFetch(url)
 
     const itemsList = items && items.map((items) => (
         [
-            {text: 'R$ ' + items.service, style: 'tableHeader', fontSize: 10}, 
+            {text: items.service, style: 'tableHeader', fontSize: 10}, 
             {text: 'R$ ' + items.price, style: 'tableHeader', fontSize: 10}
         ]
         
     ))
 
     const sumTotalValue = items && items.map(sumTotalValue => sumTotalValue.price).reduce(( value, next) => value + next, 0)  
+
+
     
 
     const makePdf = () => {
@@ -26,10 +29,11 @@ const GeneratePdf = () => {
 
         const reportTitle = [
             {
-                text: 'Cliente',
-                fontSize: 15,
+                text: 'Ordem de Serviço',
+                fontSize: 25,
                 bold: true,
-                margin: [15, 20, 0, 45]
+                margin: [15, 20, 0, 45],
+                alignment: 'center'
             }
         ]
 
@@ -41,7 +45,7 @@ const GeneratePdf = () => {
                     [
                         [
                             {text: 'Serviço', style: 'tableHeader', fontSize: 10}, 
-                            {text: 'Orçamento', style: 'tableHeader', fontSize: 10}
+                            {text: 'Orçamento', style: 'tableHeader', fontSize: 10},
                         ],
                         ...itemsList,
                         [
@@ -57,7 +61,7 @@ const GeneratePdf = () => {
             return [
                 {
                     text: currentPage + ' / ' + pageCount,
-                    alignment: 'rigth',
+                    alignment: 'right',
                     fontSize: 9,
                     margin: [0, 10, 20, 0]
                 }
@@ -76,13 +80,18 @@ const GeneratePdf = () => {
         }
 
         pdfMake.createPdf(docDefinidos).download()
+
         
     }
 
 
   return (
-    <div>
-        <button onClick={makePdf}>Gerar PDF</button>
+    <div className="generateButton">
+        <button onClick={makePdf}>
+            <span>
+                <MdPictureAsPdf />  Gerar PDF
+            </span>
+        </button>
     </div>
   )
 }

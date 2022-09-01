@@ -1,0 +1,44 @@
+.add-product form{
+    display: flex;    
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.add-product form label {
+    margin: 0 8px;
+    font-weight: 500;
+}
+
+.add-product form label input {
+    margin-left: 8px;
+    border: 0;
+    border-bottom: 1px solid #14213d;
+    outline: 0;
+}
+
+.add-product form label input:focus {
+    border-bottom: 1px solid #fca311;
+}
+
+.add-product button {
+    background-color: transparent;
+    color: #14213d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.add-product button span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;    
+}
+
+.add-product button:hover {
+    color: #fca311;
+}
